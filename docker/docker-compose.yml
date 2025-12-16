@@ -1,0 +1,64 @@
+services:
+    postgres:
+        build: ${PWD}/docker/postgres
+        container_name: postgres
+        environment:
+            POSTGRES_PASSWORD_FILE: /run/secrets/postgres-passwd
+        env_file: .env
+        secrets:
+            - postgres-passwd
+        volumes:
+            - postgres_data:/var/lib/postgresql/
+            - postgres_logs:/var/log/postgres
+        expose:
+            - 5432
+        ports:
+            - "5432:5432"
+        networks:
+            - 42Sentinel
+        restart: unless-stopped
+        healthcheck:
+            test:
+                ["CMD-SHELL", "pg_isready -h localhost -p $POSTGRES_PORT -U postgres"]
+            interval: 5s
+            timeout: 2s
+            retries: 3
+
+    fastapi:
+        build:
+            context: ..
+            dockerfile: ${PWD}/docker/fastapi/Dockerfile
+        container_name: fastapi
+        environment:
+            FASTAPI_PASSWORD_FILE: /run/secrets/fastapi-passwd
+        env_file: .env
+        secrets:
+            - fastapi-passwd
+        networks:
+            - 42Sentinel
+        expose:
+            - 8080
+        ports:
+            - "8080:8080"
+        restart: unless-stopped
+        healthcheck:
+          test: curl --fail http://localhost:8000/health || exit 1
+          interval: 5s
+          timeout: 2s
+          retries: 3
+
+networks:
+    42Sentinel:
+        name: 42Sentinel
+
+volumes:
+    postgres_data:
+        name: postgres_data
+    postgres_logs:
+        name: postgres_logs
+
+secrets:
+    fastapi-passwd:
+        file: ${PWD}/docker/secrets/fastapi-passwd.txt
+    postgres-passwd:
+        file: ${PWD}/docker/secrets/postgres-passwd.txt
