@@ -1,6 +1,6 @@
 .PHONY: help setup build up down stop restart logs list clean all re
 
-NAME = transcendence
+NAME = sentinel
 DOCKER_COMPOSE_YML = ./docker/docker-compose.yml
 DOCKER_COMPOSE_CMD = docker compose
 

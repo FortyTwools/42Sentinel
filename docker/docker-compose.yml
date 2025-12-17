@@ -12,8 +12,6 @@ services:
             - postgres_logs:/var/log/postgres
         expose:
             - 5432
-        ports:
-            - "5432:5432"
         networks:
             - 42Sentinel
         restart: unless-stopped
@@ -37,15 +35,35 @@ services:
         networks:
             - 42Sentinel
         expose:
-            - 8080
-        ports:
-            - "8080:8080"
+            - 5000
         restart: unless-stopped
         healthcheck:
-          test: curl --fail http://localhost:8000/health || exit 1
-          interval: 5s
-          timeout: 2s
-          retries: 3
+            test:
+                ["CMD-SHELL", "curl --fail http://localhost:5000/health || exit 1"]
+            interval: 5s
+            timeout: 2s
+            retries: 3
+
+#use volume for dev purposes (Hot reload, for prod, swap dockerfile + remove volume) 
+    vue:
+        build:
+            context: ..
+            dockerfile: ${PWD}/docker/vue/Dockerfile
+        container_name: vue
+        environment:
+            VUE_PASSWORD_FILE: /run/secrets/vue-passwd
+        env_file: .env
+        secrets:
+            - vue-passwd
+        networks:
+            - 42Sentinel
+        ports:
+            - "5173:5173"
+        volumes:
+            - ../frontend:/app
+            - /app/node_modules
+        restart: unless-stopped
+
 
 networks:
     42Sentinel:
@@ -56,8 +74,12 @@ volumes:
         name: postgres_data
     postgres_logs:
         name: postgres_logs
+    # frontend:
+    #     name: frontend
 
 secrets:
+    vue-passwd:
+        file: ${PWD}/docker/secrets/vue-passwd.txt
     fastapi-passwd:
         file: ${PWD}/docker/secrets/fastapi-passwd.txt
     postgres-passwd:

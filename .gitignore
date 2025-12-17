@@ -2,3 +2,4 @@
 docker/secrets
 __pycache__
 __init__.py
+package-lock.json
