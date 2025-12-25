@@ -36,10 +36,12 @@ services:
             - 42Sentinel
         expose:
             - 5000
+        ports: #dev purposes
+            - 5000:5000
         restart: unless-stopped
         healthcheck:
             test:
-                ["CMD-SHELL", "curl --fail http://localhost:5000/health || exit 1"]
+                ["CMD-SHELL", "curl --fail http://localhost:5000/api/v1/health || exit 1"]
             interval: 5s
             timeout: 2s
             retries: 3
@@ -74,8 +76,6 @@ volumes:
         name: postgres_data
     postgres_logs:
         name: postgres_logs
-    # frontend:
-    #     name: frontend
 
 secrets:
     vue-passwd:

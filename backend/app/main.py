@@ -1,14 +1,8 @@
 from fastapi import FastAPI
+from app.api.v1.raw import router as raw_router
+from app.api.v1.health import router as health_router
 
-app = FastAPI()
+app = FastAPI(title="42Sentinel")
 
-
-@app.get("/")
-async def root():
-    return {"Uvicorn": "I'm alive"}
-
-
-@app.get("/health")
-def health_check():
-    print("debug")
-    return {"status": "healthy"}
+app.include_router(raw_router, prefix="/api/v1/raw")
+app.include_router(health_router, prefix="/api/v1/health")
