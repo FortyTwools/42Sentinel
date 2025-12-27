@@ -36,8 +36,6 @@ services:
             - 42Sentinel
         expose:
             - 5000
-        ports: #dev purposes
-            - 5000:5000
         restart: unless-stopped
         healthcheck:
             test:

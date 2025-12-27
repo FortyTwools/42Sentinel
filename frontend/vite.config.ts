@@ -10,7 +10,16 @@ export default defineConfig({
     vue(),
     vueDevTools(),
   ],
-  resolve: {
+  server: {
+    host: true,
+    port: 5173,
+    proxy: {
+      '/api': {
+        target: 'http://fastapi:5000',
+        changeOrigin: true,
+      },
+    },
+  },  resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
