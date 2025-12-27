@@ -19,11 +19,14 @@ async function apiCall() {
   
   try {
     switch (props.method) {
-      case 'get': axiosMethod = axios.get; break;
-      case 'post': axiosMethod = axios.post; break;
-      default: throw "wtf is this method"
+      default:
+        throw new Error("wtf is this method");
+      case 'get':
+        axiosMethod = axios.get; break;
+      case 'post':
+        axiosMethod = axios.post; break;
     }
-    const res = await axios.get(props.url)
+    const res = await axiosMethod(props.url);
     response.value = res.data
   } catch (err: any) {
     error.value = err.message ?? 'Request failed'
