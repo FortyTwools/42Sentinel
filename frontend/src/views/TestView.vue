@@ -15,7 +15,7 @@ import APITest from '../components/APITestCard.vue'
 
 section {
   display: flex;
-  margin: 2rem;
+  padding: 2rem;
   flex-direction: column;
   align-items: center;
   gap: 2rem;
