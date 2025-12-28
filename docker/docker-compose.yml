@@ -27,11 +27,16 @@ services:
             context: ..
             dockerfile: ${PWD}/docker/fastapi/Dockerfile
         container_name: fastapi
+        depends_on:
+            postgres: 
+                condition: service_healthy
         environment:
             FASTAPI_PASSWORD_FILE: /run/secrets/fastapi-passwd
+            POSTGRES_PASSWORD_FILE: /run/secrets/postgres-passwd
         env_file: .env
         secrets:
             - fastapi-passwd
+            - postgres-passwd
         networks:
             - 42Sentinel
         expose:

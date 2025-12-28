@@ -3,15 +3,11 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header>
-    42Sentinel
-  </header>
-
   <RouterView />
 </template>
 
 <style scoped>
-header {
+/* header {
   background-color: #ffffff3d;
   display: flex;
   justify-content: center;
@@ -20,6 +16,6 @@ header {
   height: 10vh;
   line-height: 1.5;
   max-height: 100vh;
-}
+} */
 
 </style>

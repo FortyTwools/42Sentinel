@@ -38,34 +38,22 @@ async function apiCall() {
 </script>
 
 <template>
-  <div>
-    <section>
-      <button @click="apiCall" :disabled="loading">{{method.toUpperCase()}} {{url}}</button>
-      <p v-if="loading">Loading...</p>
-      <p v-if="error">Error: {{ error }}</p>
-      <pre v-if="response">{{ response }}</pre>
-    </section>
+  <div class="api-card">
+    <button @click="apiCall" :disabled="loading">
+      {{ method.toUpperCase() }} {{ url }}
+    </button>
 
+    <pre v-if="loading">Loading...</pre>
+    <pre v-if="error">Error: {{ error }}</pre>
+    <pre v-if="response">{{ response }}</pre>
   </div>
 </template>
 
 <style scoped>
 
-div {
-  width: 50%;
-  padding: 1rem;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;  
-}
-
-section {
-  display: flex;
-  flex-direction: column;  
-  gap: 1rem;
-}
-
 button {
+  color: #fff;
+  font-weight: 700;
   width: fit-content;
   padding: 1rem;
   border-radius: 1rem;
@@ -74,8 +62,28 @@ button {
 }
 
 p, pre {
+  padding: 1rem;
   border-radius: 1rem;
   background-color: #ffffff4f;
 }
+/* Container */
+
+.api-card {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+
+  position: relative;
+
+  background: radial-gradient(90.16% 143.01% at 15.32% 21.04%, rgba(255, 255, 255, 0.2) 0%, rgba(4, 128, 159, 0.04) 37.98%, rgba(237, 52, 145, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+  background-blend-mode: overlay, normal;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(40px);
+  border-radius: 20px;
+}
 
 </style>
+
