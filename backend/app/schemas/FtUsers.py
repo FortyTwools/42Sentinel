@@ -1,4 +1,5 @@
-from app.schemas.base import Base
+from app.schemas.Base import Base
+from sqlalchemy.orm import relationship
 from sqlalchemy import (
     Column,
     Integer,
@@ -8,10 +9,12 @@ from sqlalchemy import (
     func,
 )
 
-class ft_user(Base):
+class FtUser(Base):
     __tablename__ = "ft_users"
 
     id = Column(Integer, primary_key=True)
+    processed = relationship("ProcessedUser", back_populates="ft_user", uselist=False)
+
     name = Column(String, nullable=False)
     login = Column(String, nullable=False)
 

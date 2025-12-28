@@ -18,8 +18,7 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-from app.schemas.base import Base
-from app.schemas.ft_users import ft_user
+from app.schemas import Base, FtUser, ProcessedUser
 from app.core.config import settings
 
 target_metadata = Base.metadata

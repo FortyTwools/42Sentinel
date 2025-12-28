@@ -5,8 +5,8 @@ import APITest from '../components/APITestCard.vue'
 <template>
   <section>
     <APITest method="get" url="/api/v1/health" />
-    <APITest method="post" url="/api/v1/raw/fetch/users" />
-    <APITest method="get" url="/api/v1/raw/fetch/users" />
+    <APITest method="post" url="/api/v1/fetch/users" />
+    <APITest method="get" url="/api/v1/fetch/users" />
     <APITest method="dskjfbqs" url="test" />
   </section>
 </template>
