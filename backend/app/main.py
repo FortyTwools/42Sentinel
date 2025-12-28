@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from backend.app.api.v1.ft_users import router as raw_router
+from app.api.v1.ft_users import router as raw_router
 from app.api.v1.health import router as health_router
 
 app = FastAPI(title="42Sentinel")
