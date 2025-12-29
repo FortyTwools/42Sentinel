@@ -4,6 +4,7 @@ from sqlalchemy.exc import ProgrammingError
 from fastapi import HTTPException
 
 def get_trimmed_user(data: dict) -> FtUser:
+    """Builds a FtUser from data (JSON) from 42API"""
     return FtUser(
         id=data["id"],
         name=data["displayname"],
@@ -21,6 +22,7 @@ def get_trimmed_user(data: dict) -> FtUser:
 
 
 def trim_and_insert(raw: list[dict], db: Session) -> int:
+    """Gets a raw JSON object from 42API and insert the users in the db correspondingly"""
     users = []
     for user in raw:
         users.append(get_trimmed_user(user))
@@ -29,7 +31,26 @@ def trim_and_insert(raw: list[dict], db: Session) -> int:
     return len(users)
 
 
-def retrieve(db: Session) -> list[dict]:
+def retrieve_user_from_intra(intra: str, db: Session) -> list[dict]:
+    """SELECT * FROM FtUsers WHERE intra == login"""
+    try:
+        user = db.query(FtUser).filter(FtUser.login == intra).first()
+        return user
+    except ProgrammingError:
+        raise HTTPException(status_code=404, detail="ft_users table does not exist")
+
+
+def retrieve_user_from_id(userId: int, db: Session) -> list[dict]:
+    """SELECT * FROM FtUsers WHERE id == userId"""
+    try:
+        user = db.query(FtUser).filter(FtUser.id == userId).first()
+        return user
+    except ProgrammingError:
+        raise HTTPException(status_code=404, detail="ft_users table does not exist")
+
+
+def retrieve_all(db: Session) -> list[dict]:
+    """SELECT * FROM FtUsers"""
     try:
         users = db.query(FtUser).all()
         return users

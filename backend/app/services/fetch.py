@@ -7,6 +7,7 @@ _token_cache = {
     "expires_at": 0,
 }
 
+
 def get_token() -> str:
     """Return a valid 42API token, fetching a new one if expired."""
     now = int(time.time())
@@ -26,26 +27,129 @@ def get_token() -> str:
     _token_cache["expires_at"] = now + data.get("expires_in", 3600) - 10
     return _token_cache["access_token"]
 
-def fetch_ft_users(campus: int):
+
+def fetch_ft_users(campus: int) -> list[dict]:
+    """Fetches all users from <campus> and returns it"""
     token = get_token()
     if not campus or not token:
         return
 
-    ppl = []
+    users = []
     page = 1
     per_page = 100
     headers = {"Authorization": f"Bearer {token}"}
     url = f"{settings.FT_API_BASE_URL}/campus/{campus}/users"
 
     while True:
-        response = requests.get(url,
-                        headers=headers,
-                        params={"page[number]": page, "page[size]": per_page})
+        response = requests.get(
+            url=url,
+            headers=headers,
+            params={"page[number]": page, "page[size]": per_page}
+        )
 
         page_data = response.json()
         if not page_data: break
 
-        ppl.extend(page_data)
+        users.extend(page_data)
         page += 1
-    return ppl
-    
+    return users
+
+
+def fetch_evals_as_corrected(user_id: int) -> list[dict]:
+    """Fetches evaluations where user with user_id is corected and returns it"""
+    token = get_token()
+    if not token or not user_id:
+        return
+
+    evaluations = []
+    page = 1
+    per_page = 100
+    headers = {"Authorization": f"Bearer {token}"}
+    url = f"{settings.FT_API_BASE_URL}/users/{user_id}/scale_teams/as_corrected"
+
+    while True:
+        response = requests.get(
+            url=url,
+            headers=headers,
+            params={"page[number]": page, "page[size]": per_page}
+        )
+        if response.status_code != 200: break
+
+        page_data = response.json()
+        if not page_data: break
+
+        evaluations.extend(page_data)
+        page += 1
+    return evaluations
+
+
+def fetch_evals_as_corrector(user_id: int) -> list[dict]:
+    """Fetches evaluations where user with user_id is corrector and returns it"""
+    token = get_token()
+    if not token or not user_id:
+        return
+
+    evaluations = []
+    page = 1
+    per_page = 100
+    headers = {"Authorization": f"Bearer {token}"}
+    url = f"{settings.FT_API_BASE_URL}/users/{user_id}/scale_teams/as_corrector"
+
+    while True:
+        response = requests.get(
+            url=url,
+            headers=headers,
+            params={"page[number]": page, "page[size]": per_page}
+        )
+        if response.status_code != 200: break
+
+        page_data = response.json()
+        if not page_data: break
+
+        evaluations.extend(page_data)
+        page += 1
+    return evaluations
+
+
+def fetch_logtime(user_id: int) -> list[dict]:
+    """Fetches evaluations for user with <user_id> and returns it"""
+    token = get_token()
+    if not token or not user_id:
+        return
+
+    locations = []
+    page = 1
+    per_page = 100
+    headers = {"Authorization": f"Bearer {token}"}
+    url = f"{settings.FT_API_BASE_URL}/users/{user_id}/locations"
+
+    while True:
+        response = requests.get(
+            url=url,
+            headers=headers,
+            params={"page[number]": page, "page[size]": per_page}
+        )
+        if response.status_code != 200: break
+
+        page_data = response.json()
+        if not page_data: break
+
+        locations.extend(page_data)
+        page += 1
+    return locations
+
+def fetch_project(p_id: int) -> list[dict]:
+    """Fetches project with <p_id> and returns it"""
+    token = get_token()
+    if not token or not p_id:
+        return
+
+    headers = {"Authorization": f"Bearer {token}"}
+    url = f"{settings.FT_API_BASE_URL}/projects/{p_id}"
+    response = requests.get(
+        url=url,
+        headers=headers,
+    )
+    if response.status_code != 200: return None
+    data = response.json()
+    return data

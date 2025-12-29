@@ -26,4 +26,4 @@ class FtUser(Base):
 
     staff = Column(Boolean, nullable=False)
     active = Column(Boolean, nullable=False)
-    fetched_at = Column(DateTime, server_default=func.now())
+    fetched_at = Column(DateTime(timezone=True), server_default=func.now())

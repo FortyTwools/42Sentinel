@@ -18,7 +18,8 @@ class ProcessedUser(Base):
     ft_user = relationship("FtUser", back_populates="processed", uselist=False)
 
     raw_logtime = Column(JSON, nullable=False) #keep dict of logtime
-    raw_evals = Column(JSON, nullable=False) #keep dict of evals
+    raw_evals_corrected = Column(JSON, nullable=False) #keep dict of evals
+    raw_evals_corrector = Column(JSON, nullable=False) #keep dict of evals
 
     #evalutor card
     evaluator_total_evals = Column(Integer, nullable=True)
@@ -38,14 +39,15 @@ class ProcessedUser(Base):
 
     #dashboard:
     #flags
-    outercore = Column(Boolean, default=False)
-    night_stud = Column(Boolean, default=False)
-    rank = Column(Integer, nullable=False)
-    evals_not_at_school = Column(Integer, default=False)
+    outercore = Column(Boolean, nullable=True)
+    night_stud = Column(Boolean, nullable=True)
+    rank = Column(Integer, nullable=True)
+    evals_not_at_school = Column(Integer, default=0)
 
     processed_logtime = Column(JSON, nullable=True)
-    processed_evals = Column(JSON, nullable=True)
+    processed_evals_corrected = Column(JSON, nullable=True)
+    processed_evals_corrector = Column(JSON, nullable=True)
 
-    fetched_at = Column(DateTime, server_default=func.now())
-    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+    fetched_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 

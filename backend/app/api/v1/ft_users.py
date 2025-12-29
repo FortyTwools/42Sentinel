@@ -3,7 +3,7 @@ from app.services.fetch import fetch_ft_users
 from app.db.session import get_db
 from app.core.config import settings
 from sqlalchemy.orm import Session
-from app.services.ft_users import trim_and_insert, retrieve
+from app.services.ft_users import trim_and_insert, retrieve_all
 
 router = APIRouter()
 
@@ -15,17 +15,6 @@ def fetch_users(db: Session = Depends(get_db)):
         "status": "success",
         "message": f"Succesfully fetched and inserted {inserted_count} users"
     }
-
-
-@router.get("/fetch/users", status_code=status.HTTP_200_OK)
-def get_users(db: Session = Depends(get_db)):
-    users = retrieve(db)
-    return {
-        "status": "success",
-        "message": "SELECT * FROM ft_users",
-        "data": users
-    }
-
 
 @router.post("/fetch/evaluations")
 def fetch_evaluations():

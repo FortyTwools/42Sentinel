@@ -2,3 +2,4 @@
 docker/secrets
 __pycache__
 package-lock.json
+evals
