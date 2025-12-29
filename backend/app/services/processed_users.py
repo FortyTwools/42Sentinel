@@ -70,8 +70,6 @@ def parse_corrected_data(evals: list[dict], db: Session) -> list[dict]:
             evaluators[eval['corrector']['login']]['tot_mark'] += eval['final_mark']
             evaluators[eval['corrector']['login']]['count'] += 1
 
-        with open(f"evals/{eval['id']}.json", "w+") as file:
-            json.dump(eval, file)
         total += 1
         tot_grade += eval['final_mark']
         tot_time += 0
