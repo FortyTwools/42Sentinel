@@ -1,68 +1,120 @@
 <script setup lang="ts">
+
+import axios from 'axios'
+import { ref, onMounted } from 'vue'
 import BlurCard from '../BlurCard.vue'
 import BlueCard from '../BlueCard.vue'
+import Spinner from '../Spinner.vue'
 import Avatar from '../Avatar.vue'
 
 const props = defineProps<{
 	user: string
 }>()
+
+const pageState = ref("loading")
+const data = ref<any>(null)
+
+onMounted(async () => {
+	try {
+		const response:any = await axios.get(`/api/v1/processed/intra/${props.user}`)
+		console.log(response)
+		if (response['status'] !== 200)
+			throw Error(`${response['status']}: ${response['statusText']}`)
+		data.value = response['data']
+		pageState.value = "fetched"
+	} catch (err: any) {
+		console.error(err)
+	}
+})
+
+function isLoading(): boolean {
+	return pageState.value === "loading"
+}
+
+function isFetched(): boolean {
+	return pageState.value === "fetched"
+}
+
 </script>
 
 <template>
 	<BlurCard
 		id="evaluator-profile"
-		style="flex: 1; display: flex; flex-direction: column; padding: 1.5rem; gap: 1.5rem;">
-	<h1 class="profile-card-title">
-		Evaluator profile
-	</h1>
-	<div id="evaluator-profile-middle">
-		<div id="evaluator-metrics">
-			<p>Total evaluations: 150</p>
-			<p>Average time: 26min</p>
-			<p>Average grade: 97</p>
-			<p>Flagged evaluations: 7</p>
+		style="flex: 1; display: flex; padding: 1.5rem;"
+	>
+		<div v-if="isLoading()" style="flex:1; display: flex; align-items: center; justify-content: center;">
+			<Spinner />
 		</div>
-		<BlueCard
-			style="height: fit-content; flex: 1; display: flex; flex-direction: column; padding: 0.5rem;">
-			<table>
-				<thead>
-					<tr>
-						<th></th>
-						<th>intra</th>
-						<th>evaluations</th>
-						<th>grade</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th><Avatar src="/src/assets/default_avatar.jpg"/></th>
-						<th>ljeribha</th>
-						<th>17</th>
-						<th>97%</th>
-					</tr>
-					<tr>
-						<th><Avatar src="/src/assets/default_avatar.jpg"/></th>
-						<th>gpochon</th>
-						<th>13</th>
-						<th>125%</th>
-					</tr>
-					<tr>
-						<th><Avatar src="/src/assets/default_avatar.jpg"/></th>
-						<th>ljaqcuem</th>
-						<th>9</th>
-						<th>83%</th>
-					</tr>
-				</tbody>
-			</table>
-		</BlueCard>
-	</div>
-	<div id="evaluator-graph">
-
-	</div>
+		<div v-else-if="isFetched()" id="evaluator-container">
+			<div id="evaluator-title">
+				<h1 class="profile-card-title">
+					Evaluator profile
+				</h1>
+			</div>
+			<div id="evaluator-profile-middle">
+				<div id="evaluator-metrics">
+					<p>Total evaluations: 150</p>
+					<p>Average time: 26min</p>
+					<p>Average grade: 97</p>
+					<p>Flagged evaluations: 7</p>
+				</div>
+				<BlueCard
+					style="height: fit-content; flex: 1; display: flex; flex-direction: column; padding: 0.5rem;">
+					<table>
+						<thead>
+							<tr>
+								<th></th>
+								<th>intra</th>
+								<th>evaluations</th>
+								<th>grade</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th><Avatar src="/src/assets/default_avatar.jpg"/></th>
+								<th>ljeribha</th>
+								<th>17</th>
+								<th>97%</th>
+							</tr>
+							<tr>
+								<th><Avatar src="/src/assets/default_avatar.jpg"/></th>
+								<th>gpochon</th>
+								<th>13</th>
+								<th>125%</th>
+							</tr>
+							<tr>
+								<th><Avatar src="/src/assets/default_avatar.jpg"/></th>
+								<th>ljaqcuem</th>
+								<th>9</th>
+								<th>83%</th>
+							</tr>
+						</tbody>
+					</table>
+				</BlueCard>
+			</div>
+			<div id="evaluator-graph">
+			</div>
+		</div>
+		<div v-else>
+			:c
+		</div>
 	</BlurCard>
 </template>
 
 <style lang="css" scoped>
+
+#evaluator-container {
+	flex: 1; 
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+#evaluator-title {
+	width: 100%;
+	height: fit-content;
+}
+
 #evaluator-profile-middle {
 	display: flex;
 	flex-direction: row;

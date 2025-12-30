@@ -4,7 +4,7 @@ import APITest from '../components/APITestCard.vue'
 
 <template>
   <section>
-    <APITest method="get" url="/api/v1/health" />
+    <APITest method="get" url="/api/v1/health"/>
     <APITest method="post" url="/api/v1/fetch/users" />
     <APITest method="get" url="/api/v1/db/ft_users" />
     <APITest method="get" url="/api/v1/db/projects" />
@@ -16,6 +16,7 @@ import APITest from '../components/APITestCard.vue'
 <style lang="css" scoped>
 
 section {
+  flex: 1;
   display: flex;
   padding: 2rem;
   flex-direction: column;

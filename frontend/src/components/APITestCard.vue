@@ -39,7 +39,7 @@ async function apiCall() {
 </script>
 
 <template>
-  <BlurCard width="100%" height="fit-content">
+  <BlurCard style="width: 100%; height: fit-content; padding: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem">
     <button @click="apiCall" :disabled="loading">
       {{ method.toUpperCase() }} {{ url }}
     </button>
