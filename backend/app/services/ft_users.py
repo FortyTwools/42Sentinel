@@ -40,15 +40,6 @@ def retrieve_user_from_intra(intra: str, db: Session) -> list[dict]:
         raise HTTPException(status_code=404, detail="ft_users table does not exist")
 
 
-def retrieve_user_from_id(userId: int, db: Session) -> list[dict]:
-    """SELECT * FROM FtUsers WHERE id == userId"""
-    try:
-        user = db.query(FtUser).filter(FtUser.id == userId).first()
-        return user
-    except ProgrammingError:
-        raise HTTPException(status_code=404, detail="ft_users table does not exist")
-
-
 def retrieve_all(db: Session) -> list[dict]:
     """SELECT * FROM FtUsers"""
     try:

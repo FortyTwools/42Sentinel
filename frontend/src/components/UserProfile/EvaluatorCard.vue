@@ -3,9 +3,8 @@
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import BlurCard from '../BlurCard.vue'
-import BlueCard from '../BlueCard.vue'
 import Spinner from '../Spinner.vue'
-import Avatar from '../Avatar.vue'
+import TopEvalsCard from '../TopEvalsCard.vue'
 
 const props = defineProps<{
 	user: string
@@ -58,39 +57,7 @@ function isFetched(): boolean {
 					<p>Average grade: 97</p>
 					<p>Flagged evaluations: 7</p>
 				</div>
-				<BlueCard
-					style="height: fit-content; flex: 1; display: flex; flex-direction: column; padding: 0.5rem;">
-					<table>
-						<thead>
-							<tr>
-								<th></th>
-								<th>intra</th>
-								<th>evaluations</th>
-								<th>grade</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th><Avatar src="/src/assets/default_avatar.jpg"/></th>
-								<th>ljeribha</th>
-								<th>17</th>
-								<th>97%</th>
-							</tr>
-							<tr>
-								<th><Avatar src="/src/assets/default_avatar.jpg"/></th>
-								<th>gpochon</th>
-								<th>13</th>
-								<th>125%</th>
-							</tr>
-							<tr>
-								<th><Avatar src="/src/assets/default_avatar.jpg"/></th>
-								<th>ljaqcuem</th>
-								<th>9</th>
-								<th>83%</th>
-							</tr>
-						</tbody>
-					</table>
-				</BlueCard>
+				<TopEvalsCard />
 			</div>
 			<div id="evaluator-graph">
 			</div>

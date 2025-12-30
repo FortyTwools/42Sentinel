@@ -30,11 +30,11 @@ class ProcessedUser(Base):
     # column containing: pp_micro, intra, number of evaluations by evalutor on them, average grade of all those evals
 
     #evalutee card
-    evaluatee_total_evals = Column(Integer, nullable=True)
-    evaluatee_avg_time = Column(Integer, nullable=True)
-    evaluatee_avg_grade = Column(Float, nullable=True)
-    evaluatee_epp = Column(Integer, nullable=True)
-    evaluatee_top = Column(JSON, nullable=True)
+    evaluated_total_evals = Column(Integer, nullable=True)
+    evaluated_avg_time = Column(Integer, nullable=True)
+    evaluated_avg_grade = Column(Float, nullable=True)
+    evaluated_epp = Column(Integer, nullable=True)
+    evaluated_top = Column(JSON, nullable=True)
     # column containing: pp_micro, intra, number of evaluations by evalutee on them, average grade of all those evals
 
     #dashboard:

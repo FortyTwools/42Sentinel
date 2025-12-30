@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router'
 
 import Dashboard from '../components/UserProfile/Dashboard.vue'
-import EvaluateeCard from '../components/UserProfile/EvaluateeCard.vue'
+import EvaluatedCard from '../components/UserProfile/EvaluatedCard.vue'
 import EvaluatorCard from '../components/UserProfile/EvaluatorCard.vue'
 import ProfileCard from '../components/UserProfile/ProfileCard.vue'
 
@@ -21,7 +21,7 @@ const user: string = Array.isArray(route.params.user)
 		<div class="rhs-container">
 			<div class="profiles-container">
 				<EvaluatorCard :user="user"/>
-				<EvaluateeCard :user="user"/>
+				<EvaluatedCard :user="user"/>
 			</div>
 			<Dashboard :user="user" />
 		</div>
